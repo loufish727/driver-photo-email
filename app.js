@@ -1,5 +1,5 @@
-const EMAIL_RECIPIENTS = ['louie.fisher@taylormetal.com', 'inbox@taylormetal.com'];
-const EMAIL_CC = ['salemtrucking@taylormetal.com'];
+const EMAIL_RECIPIENTS = ['louie.fisher@taylormetal.com', 'inbox@taylormetal.com', 'salemtrucking@taylormetal.com'];
+const EMAIL_CC = [];
 const PENDING_EMAIL_KEY = 'driver-photo-email-pending';
 
 const form = document.querySelector('#emailForm');
