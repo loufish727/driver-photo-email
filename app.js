@@ -151,17 +151,21 @@ function buildGmailUrl({ recipients, cc = [], subject, body }) {
 function extractErpOrders(value) {
   const text = String(value || '').toUpperCase();
   const orders = new Set();
-  const pattern = /\b(S|PR|CF)-?(\d{4,6})(?:-([A-Z]))?\b|\b(\d{5,6})(?:-([A-Z]))?\b/g;
+  const pattern = /\b(CA)-?(S\d{4,6})(?:-([A-Z]))?\b|\b(S|PR|CF|RT)-?(\d{4,6})(?:-([A-Z]))?\b|\b(\d{5,6})(?:-([A-Z]))?\b/g;
   let lastPrefix = '';
   let match = pattern.exec(text);
 
   while (match) {
     if (match[1]) {
-      lastPrefix = match[1];
+      lastPrefix = 'CA-S';
+      const suffix = match[3] ? `-${match[3]}` : '';
+      orders.add(`CA-${match[2]}${suffix}`);
+    } else if (match[4]) {
+      lastPrefix = match[4];
       orders.add(match[0].replace(/[^A-Z0-9-]/g, ''));
     } else if (lastPrefix) {
-      const suffix = match[5] ? `-${match[5]}` : '';
-      orders.add(`${lastPrefix}${match[4]}${suffix}`);
+      const suffix = match[8] ? `-${match[8]}` : '';
+      orders.add(`${lastPrefix}${match[7]}${suffix}`);
     } else {
       orders.add(match[0].replace(/[^A-Z0-9-]/g, ''));
     }
